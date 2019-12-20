@@ -1,14 +1,14 @@
 
+<?php include 'db.php'; ?>
 <div id="myHeader" class="bg-light">
      <h3 align="center"><b><i>ATMIYA SCIENTIFIC</i></b></h3>
 
-<nav class="navbar navbar-light bg-light">
-  <form class="form-inline" action="table.php" method="post">
-    <input style="width: 1200px; margin-left: 35px;" list="chemicals" name="chemical_name" class="form-control mr-sm-2" type="search" placeholder="S e a r c h   O t h e r   C h e m i c a l s   h e r e  .  .  .  .  .  .  ." aria-label="Search" required="required">
+<nav class="navbar navbar-light bg-light" style="width: 100%;">
+  <form class="form-inline" action="table.php" method="post" style="width: 95%;">
+    <input style="width: 90%;" list="chemicals" name="chemical_name" class="form-control mr-sm-2" type="search" placeholder="S e a r c h   O t h e r   C h e m i c a l s   h e r e  .  .  .  .  .  .  ." aria-label="Search" required="required">
 
                      <datalist id="chemicals" class="wrap-input2">
                          <?php 
-                         $con=mysqli_connect("localhost","root","","atmiya_master");
                         $customer=mysqli_query($con,"select DISTINCT Product_Description from chemical_master");                    
                            ?>
                              <?php 
@@ -21,12 +21,12 @@
 
     <button class="btn btn-success" type="submit">Search</button>
   </form>
-  <form action="cart.php" method="post">
-     <button style="margin-right:80px;" class="btn btn-success">View Cart</button>
+   <form action="cart.php" method="post" style="width: 5%;"> 
+     <button style="margin-left: -52%;" class="btn btn-success">View Cart</button>
   </form>
-</nav>
+ </nav>
 <?php
-    $con=mysqli_connect("localhost","root","","atmiya_master");
+
     $chemical_info=mysqli_query($con,"select * from chemical_master where Product_Description='".$_POST["chemical_name"]."'"); 
 ?>
 <html>
@@ -43,10 +43,23 @@
             .content
             {
               padding: 16px;
+              overflow-y: scroll;
+              max-height: 100vh;
+              padding-bottom: 55px;
             }
             .sticky + .content 
             {
               padding-top: 102px;
+            }
+            .filter
+            {
+                overflow-y: scroll;
+                padding: 10px;
+                max-height: 80vh;
+            }
+            body
+            {
+              /*position: fixed;*/
             }
 
         </style>
@@ -54,15 +67,17 @@
         <link href="css/bootstrap.min_1.css" rel="stylesheet" type="text/css"/>
         <title>Atmiya Scientific</title>
     </head>
-<body>    
+<body onload="closeList()">    
 
-    <h4 align="center"><b><i>list of company</i></b></h4>
 
-<table border="1" class="table table-bordered" id="history" style="margin-left:auto;margin-right:auto;">
-                    
+</div>
+<div style="width: 20%; float: left;" class="filter">
+ 
+  <table border="1" class="table table-bordered" style="margin-left:auto;margin-right:auto;">
+                    <h4 align="center"><b><i>list of company</i></b></h4>
     
                      <?php 
-                         $con=mysqli_connect("localhost","root","","atmiya_master");
+                         
                         $Brand=mysqli_query($con,"select DISTINCT Brand from chemical_master");                    
                            ?>
                              <?php 
@@ -70,16 +85,16 @@
                                  while($rs=mysqli_fetch_assoc($Brand))
                                  {
 
-                                     ?><td><input type="checkbox"  checked="checked" id="" name="brand" value="<?php echo $rs["Brand"]; ?>" onclick="filter(this)"> <?php echo $rs["Brand"]; ?></td>
+                                     ?><tr><td><input type="checkbox"  checked="checked" id="" name="brand" value="<?php echo $rs["Brand"]; ?>" onclick="filter(this)"> <?php echo $rs["Brand"]; ?></td></tr>
                                 <?php 
                                     $i++;
                                 }
                                     ?>
 
+
 </table>
 </div>
-<div class="content">
-
+<div class="content" style="width: 80%; float: left;">
 
 <table border="1" class="table table-bordered" id="history" style="margin-left:auto;margin-right:auto;">
     <tr>
@@ -128,7 +143,6 @@
    
 </table>
 -->
-
     <form method="post" action="cart.php" id="cart_form">
         <input type="hidden" name="qty" value="" id="qty">
         <input type="hidden" name="discount" value="" id="discount">
@@ -217,6 +231,22 @@
 
             }
 
+        }
+
+        function openList()
+        {
+            document.getElementById("clist").style.display='table';
+            document.getElementById("openlist").innerHTML='close';
+           // document.getElementById("closelist").onclick='closelist()';
+            document.getElementById("openlist").setAttribute("id","closelist");
+            //document.getElementById("openlist").onclick=closeList();
+        }
+
+        function closeList()
+        {
+            document.getElementById("clist").style.display='none';
+            //document.getElementById("closelist").innerHTML='click here';
+            //document.getElementById("closelist").id='openlist';
         }
 
     window.onscroll = function() {myFunction()};

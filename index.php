@@ -1,3 +1,4 @@
+<?php include 'db.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,7 +39,7 @@
 					
 						<datalist id="chemicals" class="wrap-input2">
 						 <?php 
-						 $con=mysqli_connect("localhost","root","","atmiya_master");
+						 
                         $customer=mysqli_query($con,"select DISTINCT Product_Description from chemical_master");                    
              		       ?>
                              <?php 
